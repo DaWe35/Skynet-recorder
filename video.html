@@ -2,34 +2,31 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Skynet audio recorder</title>
+  <title>Skynet video recorder</title>
 
-  <link href="../../../vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet">
-  <link href="../../../unpkg.com/videojs-wavesurfer%402.11.0/dist/css/videojs.wavesurfer.min.css" rel="stylesheet">
-  <link href="../dist/css/videojs.record.min.css" rel="stylesheet">
-  <link href="assets/examples.css" rel="stylesheet">
 
-  <script src="../../../vjs.zencdn.net/7.6.6/video.min.js"></script>
-  <script src="../../../unpkg.com/recordrtc%405.5.9/RecordRTC.js"></script>
-  <script src="../../../unpkg.com/webrtc-adapter%407.5.0/out/adapter.js"></script>
-  <script src="../../../unpkg.com/wavesurfer.js%403.3.1/dist/wavesurfer.min.js"></script>
-  <script src="../../../unpkg.com/wavesurfer.js%403.3.1/dist/plugin/wavesurfer.microphone.min.js"></script>
-  <script src="../../../unpkg.com/videojs-wavesurfer%402.11.0/dist/videojs.wavesurfer.min.js"></script>
+  <link href="Video/vjs.zencdn.net/7.6.6/video-js.min.css" rel="stylesheet">
+  <link href="Video/collab-project.github.io/videojs-record/dist/css/videojs.record.min.css" rel="stylesheet">
+  <link href="Video/collab-project.github.io/videojs-record/examples/assets/examples.css" rel="stylesheet">
 
-  <script src="../dist/videojs.record.min.js"></script>
+  <script src="Video/vjs.zencdn.net/7.6.6/video.min.js"></script>
+  <script src="Video/unpkg.com/recordrtc%405.5.9/RecordRTC.js"></script>
+  <script src="Video/unpkg.com/webrtc-adapter%407.5.0/out/adapter.js"></script>
 
-  <script src="browser-workarounds.js"></script>
+  <script src="Video/collab-project.github.io/videojs-record/dist/videojs.record.min.js"></script>
+
+  <script src="Video/collab-project.github.io/videojs-record/examples/browser-workarounds.js"></script>
+
 
   <style>
-    /* change player background color */
-    #myAudio {
-        background-color: #742A2A;
-    }
-
-    body {
-        background-color: #FFF5F5;
-    }
-    .container {
+  /* change player background color */
+  #myVideo {
+      background-color: #2A4365;
+  }
+  body {
+      background-color: #EBF8FF;
+  }
+  .container {
         top: 50%;
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
@@ -39,7 +36,7 @@
     }
     h1 {
         text-align: center;
-        color: #742A2A;
+        color: #2A4365;
     }
     h1 img {
         height: 40px;
@@ -49,7 +46,7 @@
         position: absolute;
     }
     a {
-        color: #742A2A;
+        color: #2A4365;
         text-decoration: none;
     }
     a.home {
@@ -71,15 +68,23 @@
   </style>
 </head>
 <body>
-    <a href="../../../../index.html" class="home">⬤ Skynet recorder</a>
+    <a href="index.html" class="home">⬤ Skynet recorder</a>
     <a href="https://github.com/DaWe35/Skynet-recorder" class="gh" target="_blank">GitHub</a>
     <h1>
         <img src="skynet.png" alt="Skynet logo" class="logo">
-        Skynet audio recorder
+        Skynet video recorder
     </h1>
 
     <div class="container">
-        <audio id="myAudio" class="video-js vjs-default-skin"></audio>
+        <video id="myVideo" playsinline class="video-js vjs-default-skin">
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, or consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank">
+            supports HTML5 video.
+            </a>
+        </p>
+        </video>
     </div>
 
 <script>
@@ -87,35 +92,23 @@ var options = {
     controls: true,
     fluid: true,
     plugins: {
-        wavesurfer: {
-            src: 'live',
-            waveColor: '#FFFFFF',
-            progressColor: '#D6BCFA',
-            debug: true,
-            cursorWidth: 1,
-            msDisplayMax: 20,
-            hideScrollbar: true
-        },
         record: {
             audio: true,
-            video: false,
-            maxLength: 20,
+            video: true,
+            maxLength: 10,
             debug: true
         }
     }
 };
 
 // apply some workarounds for certain browsers
-applyAudioWorkaround();
+applyVideoWorkaround();
 
-// create player
-var player = videojs('myAudio', options, function() {
+var player = videojs('myVideo', options, function() {
     // print version information at startup
     var msg = 'Using video.js ' + videojs.VERSION +
         ' with videojs-record ' + videojs.getPluginVersion('record') +
-        ', videojs-wavesurfer ' + videojs.getPluginVersion('wavesurfer') +
-        ', wavesurfer.js ' + WaveSurfer.VERSION + ' and recordrtc ' +
-        RecordRTC.version;
+        ' and recordrtc ' + RecordRTC.version;
     videojs.log(msg);
 });
 
@@ -140,6 +133,7 @@ player.on('finishRecord', function() {
     console.log('finished recording: ', player.recordedData);
 });
 </script>
+
 </body>
 
 </html>
